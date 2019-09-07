@@ -1,4 +1,5 @@
 from django import forms
+from . import models
 
 class addPerson(forms.Form):
     fname = forms.CharField(max_length=30, required=True)
