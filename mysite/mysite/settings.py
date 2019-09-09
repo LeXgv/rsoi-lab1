@@ -140,5 +140,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 if 'HEROKU_PLATFORM' in os.environ:
+    PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     django_heroku.settings(locals())
