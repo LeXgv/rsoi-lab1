@@ -14,3 +14,7 @@ jobs:
     script: python manage.py runserver
     stage: print
     script: echo "Hello, World!"
+stages:
+  - preparation
+  - runserver
+  - print
