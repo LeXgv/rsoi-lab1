@@ -85,6 +85,7 @@ if 'TRAVIS' in os.environ:
             'PORT': '5432',
         }
     }
+
 elif 'HEROKU_PLATFORM' in os.environ:
     DATABASES = {'default': dj_database_url.config()}
 else:
