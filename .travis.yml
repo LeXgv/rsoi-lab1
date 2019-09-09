@@ -3,18 +3,10 @@ services:
   - postgresql
 before_script:
   - psql -c  'create database travic;' -U postgres 
-jobs:
-  include: 
-    stage: preparation
-    script:
-      - pip install -r requirements.txt
-      - cd mysite
-      - python manage.py migrate
-    stage: runserver
-    script: python manage.py runserver
-    stage: print
-    script: echo "Hello, World!"
-stages:
-  - preparation
-  - runserver
-  - print
+script: 
+  - cd msite
+  - python manage.py test api
+deploy:
+  provider: heroku
+  api_key: 37e0c908-80ae-4f72-959a-ede65ab7da5a
+  app: lexgvapp

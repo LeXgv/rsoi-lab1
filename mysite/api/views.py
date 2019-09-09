@@ -46,7 +46,9 @@ def get_form_users(request, case):
 '''--=====API=====--'''
 @csrf_exempt
 def users(request):
-    print(request.GET)
+    print("GET", request.GET)
+    print("POST", request.body)
+    #return Api_JsonResponseGetError(0, "Break Point, For testing")
     if request.method == 'GET':
         if request.GET == {}:
             persons = models.Person.objects.all()
@@ -54,14 +56,15 @@ def users(request):
         else:
             if len(request.GET) != 1:
                 return Api_JsonResponseGetError(1, "You sent in request type get more then one argument")
-            try:
-                if list(request.GET.keys())[0] == 'id':
-                    persons = models.Person.objects.get(pk = request.GET['id'])
-                elif list(request.GET.keys())[0] == 'name':
-                    persons = models.Person.objects.get(name=request.GET['name'])
-                else:
-                    return Api_JsonResponseGetError(3, 'wrong argument')
-            except ObjectDoesNotExist:
+            if list(request.GET.keys())[0] == 'id':
+                persons = models.Person.objects.filter(pk = request.GET['id'])
+            elif list(request.GET.keys())[0] == 'name':
+                persons = models.Person.objects.filter(name=request.GET['name'])
+            elif list(request.GET.keys())[0] == 'age':
+                persons = models.Person.objects.filter(age=request.GET['age'])
+            else:
+                return Api_JsonResponseGetError(3, 'wrong argument')
+            if len(persons) == 0:
                 return Api_JsonResponseGetError(2, "Object does not exist")
             return HttpResponse(models_to_json(persons), content_type='text/json')
     elif request.method == "POST":
