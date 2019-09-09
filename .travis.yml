@@ -1,2 +1,8 @@
 language: python
-script: python -c "print('hello, World!')"
+services: 
+  - postgresql
+before_script:
+  - psql -c  'create database travic;' -U postgres 
+script: 
+  - python manage.py migrate
+  - python manage.py runserver
